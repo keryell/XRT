@@ -196,7 +196,6 @@ if [[ $clean == 1 ]]; then
     echo $PWD
     echo "/bin/rm -rf $debug_dir $release_dir $edge_dir"
     /bin/rm -rf $debug_dir $release_dir $edge_dir
-    exit 0
 fi
 
 if [[ $ccache == 1 ]]; then
