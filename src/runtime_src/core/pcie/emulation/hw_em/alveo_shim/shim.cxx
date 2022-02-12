@@ -18,6 +18,7 @@
 #include <array>
 #include <cctype>
 #include <cerrno>
+#include <cstdlib>
 #include <cstring>
 #include <fstream>
 #include <mutex>
@@ -1631,7 +1632,11 @@ namespace xclhwemhal2 {
     if(sock)
     {
       //Currently Versal platforms does not support buffer deallocation
-      if(!mVersalPlatform && sendtoxsim) {
+      if (!mVersalPlatform && sendtoxsim
+          /* If XRT_PCIE_HW_EMU_FORCE_SHUTDOWN environment variable
+             is set, skip the deallocation which seems to deadlock in
+             hw_emu in the communication with the simulation */
+          && !std::getenv("XRT_PCIE_HW_EMU_FORCE_SHUTDOWN")) {
         xclFreeDeviceBuffer_RPC_CALL(xclFreeDeviceBuffer,offset);
       }
     }
